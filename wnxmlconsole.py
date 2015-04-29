@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8, vim: expandtab:ts=4 -*-
 
-import readline
 import sys
 import os
+try:
+    import readline
+except:
+    pass # Readline module not loaded, seems you're not using Linux. Be sure to fix that.
 
 import WNQuery
 import SemFeatures
@@ -13,8 +16,8 @@ def process_query(wn, sf, query, out):
     if t[0] == ".h":    # .h
         buf = []
         buf.append("Available commands:")
-        buf.append(".h                                               this help")
-        buf.append(".q                                               quit")
+        buf.append(".h                                                this help")
+        buf.append(".q                                                quit")
         buf.append(".i   <id> <pos>                                   look up synset id in given POS (n,v,a,b)")
         buf.append(".l   <literal>                                    look up all synsets containing literal in all POS")
         buf.append(".l   <literal> <pos>                              look up all synsets containing literal in given POS")

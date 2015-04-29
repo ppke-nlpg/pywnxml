@@ -118,11 +118,11 @@ class WNQuery:
         bidx_len = 0
         for it in self.idx("b").values():
             bidx_len += len(it)
-        print("PoS\t\t#synsets\t#word senses", file=os)
-        print("Nouns\t\t{0}\t\t{1}".format(len(self.dat("n")), nidx_len), file=os)
-        print("Verbs\t\t{0}\t\t{1}".format(len(self.dat("v")), vidx_len), file=os)
-        print("Adjectives\t{0}\t\t{1}".format(len(self.dat("a")), aidx_len), file=os)
-        print("Adverbs\t\t{0}\t\t{1}".format(len(self.dat("b")), bidx_len), file=os)
+        print("PoS\t\t#synsets\t#word senses\t#words", file=os)
+        print("Nouns\t\t{0}\t\t{1}\t\t{2}".format(len(self.dat("n")), nidx_len, len(self.idx("n"))), file=os)
+        print("Verbs\t\t{0}\t\t{1}\t\t{2}".format(len(self.dat("v")), vidx_len, len(self.idx("v"))), file=os)
+        print("Adjectives\t{0}\t\t{1}\t\t{2}".format(len(self.dat("a")), aidx_len, len(self.idx("a"))), file=os)
+        print("Adverbs\t\t{0}\t\t{1}\t\t{2}".format(len(self.dat("b")), bidx_len, len(self.idx("b"))), file=os)
 
     def _save_synset(self, syns, lcnt):
         if syns.empty():
