@@ -8,7 +8,7 @@ Python3 API for WordNet XML (Hungarian WordNet in BalkaNet/VisDic XML format)
 - Pure Python 3 API for parsing and querying the XML WordNet file (import `WNQuery`)
 - `wnxmlconsole.py`: console application for executing queries on WN XML file using simple command strings.
 
-##Using the console application with *Hungarian WordNet*
+## Using the console application with *Hungarian WordNet*
 
 *Requirements:*
 - [Python 3](https://www.python.org/downloads/)
@@ -30,7 +30,7 @@ ENG20-02001223-n  {Canis familiaris:1, házikutya:1, kutya:1, eb:1}  (Ház- és 
 ENG20-09256536-n  {kutya:2}  (Jelzett tulajdonsága miatt megvetést érdemlő személy.)
 ``` 
 
-##Changes
+## Changes
 
 2015-04-29:
 - wnxmlconsole.py will now run on non-Linux OS's (tested: Windows 7), i.e. no exception if readline module cannot be loaded
@@ -42,9 +42,9 @@ ENG20-09256536-n  {kutya:2}  (Jelzett tulajdonsága miatt megvetést érdemlő s
 - Added support for the ID3 and ELR3 tags introduced in HuWN release 2014-08-14. 
 - Bugfix: escaping illegal XML pcdata characters for literals.
 
-##See also
+## See also
 
 Hungarian WordNet in XML format: https://github.com/dlt-rilmta/huwn
 
-##License
+## License
 GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
