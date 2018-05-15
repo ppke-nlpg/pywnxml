@@ -23,11 +23,6 @@ class InvalidPOSException(Exception):
     def __str__(self):
         return repr(self.message)
 
-# Constants for the Leacock-Chodorow similarity measure
-LeaCho_D = 20  # longest possible path from root to a node in WN
-LeaCho_synonym = - math.log10(1.0 / (2.0 * LeaCho_D))  # similarity score for synonyms (maximum possible similarity value), equals to approx. 1.60206 when D=20
-LeaCho_noconnect = - 1.0  # similarity score for literals with no possible connecting path in WN (when similarity score is calculated with addArtificialTop = false option, see function header)
-
 # Class for querying WordNet, read from VisDic XML file
 # Character encoding of all results is UTF-8
 class WNQuery:
@@ -102,6 +97,9 @@ class WNQuery:
             for key, val in self.m_bidx.items():
                 for vi in val:
                     print("{0}: {1}".format(key, vi), file=sys.stdout)
+
+        self.LeaCho_D = {}
+        self.LeaCho_noconnect = - 1.0
 
     # Write statistics about number of synsets, word senses for each POS.
     # @param os the output stream to write to
@@ -499,11 +497,12 @@ class WNQuery:
         return results
 
     def simLeaCho(self, wnid1, wnid2, pos, relation, addArtificialTop):
+        d = self.getLeaChoD(pos, relation)
         # get nodes reachable from wnid1, wnid2 by relation + their distances (starting with wnid1/2 with dist. 1)
         # find common node (O(n*m))
         ci_r1 = None
         ci_r2 = None
-        path_length = 2*LeaCho_D
+        path_length = 2*d
         for key1, val1 in self.getReach(wnid1, pos, relation, addArtificialTop):
             for key2, val2 in self.getReach(wnid2, pos, relation, addArtificialTop):
                 if key1 == key2:
@@ -516,9 +515,16 @@ class WNQuery:
 
         # return similarity score
         if ci_r1 and ci_r2:  # based on length of shortest connecting path
-            return -1.0 * math.log10(float(path_length) / (2.0 * LeaCho_D))
+            return -1.0 * math.log10(float(path_length) / (2.0 * d))
         else:  # when no connecting path exists between synsets
-            return LeaCho_noconnect
+            return self.LeaCho_noconnect
+
+    def getLeaChoD(self, pos, relation):
+        if (pos, relation) not in self.LeaCho_D:
+            self.LeaCho_D[(pos, relation)] =\
+                max(self.getMaxDepth(wnid, pos, relation) for wnid in self.m_ndat)
+
+        return self.LeaCho_D[(pos, relation)]
 
     def getReach(self, wnid, pos, rel, addTop, dist=1):
         res = []
